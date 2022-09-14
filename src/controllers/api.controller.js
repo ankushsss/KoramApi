@@ -438,6 +438,25 @@ module.exports.editUser = async (req, res) => {
 
 }
 
+module.exports.blockUser = async (req, res) => {
+    try {
+        console.log(req.body)
+        const users = await UserModel.findOneAndUpdate({ _id: req.body._id }, {
+            "is_block": req.body.is_block
+
+        });
+        console.log(users)
+        res.status(200).json({
+            status: "SUCCESS",
+            users,
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+}
+
 module.exports.editchatrooms = async (req, res) => {
     try {
         const users = await ChatRoomModel.findOneAndUpdate({ _id: req.body._id }, {

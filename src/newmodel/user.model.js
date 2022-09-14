@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
     profile_pic_url: String,
     alias: String,
     name: String,
+    is_block: {type:Boolean,default:false},
     lat:{type:Number,default:0},
     lon: {type:Number,default:0},
     story:{type:Array,default:[]},

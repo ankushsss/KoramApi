@@ -35,6 +35,7 @@ router.post("/v1/signup", api.subAdminSignup);
 
 //admin post 
 router.post("/v1/editUser", api.editUser);
+router.post("/v1/blockUser", api.blockUser);
 router.post("/v1/addUser", api.addUser);
 router.post("/v1/editchatrooms", api.editchatrooms);
 router.post("/v1/addchatrooms", api.addchatrooms);
