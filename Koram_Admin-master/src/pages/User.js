@@ -18,7 +18,8 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Drawer
+  Drawer,
+  Switch
 } from '@mui/material';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 // components
@@ -45,6 +46,7 @@ const TABLE_HEAD = [
   { id: 'dateofbirth', label: 'Dob', alignRight: false },
   { id: 'lat', label: 'Lat', alignRight: false },
   { id: 'lon', label: 'Lon', alignRight: false },
+  {id:'block',label:'block', alignRight: false},
   { id: '' },
 ];
 
@@ -101,6 +103,22 @@ export default function User() {
   const [alertMssg, setAlertMssg] = useState({open:false,messege:"",type:"success"})
 
   const [reloadTable, setReloadTable] = useState("1")
+  
+  function blockUser(trg,id){
+    axios.post(`http://www.koram.in:3000/api/v1/blockUser`,{is_block:trg,_id:id}).then(
+        (res)=>{
+            console.log(res)
+            // props.toggleDrawer("right", false)
+            setRightDrawer({right:false})
+            setAlertMssg({open:true,messege:"user blocked",type:"success"})
+            getUser()
+           
+        }).catch((err)=>{
+          setRightDrawer({right:false})
+            setRightDrawer({right:false})
+            setAlertMssg({open:true,messege:err.messege,type:"error"})
+        })
+}
 
   const toggleDrawer = (anchor, open, type, data) => (event) => {
     if (
@@ -214,7 +232,8 @@ export default function User() {
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     
                     const isItemSelected = selected.indexOf(row.name) !== -1;
-
+                   
+ 
                     return (
                       <TableRow
                         hover
@@ -242,6 +261,7 @@ export default function User() {
                         <TableCell align="left">{row.dateofbirth}</TableCell>
                         <TableCell align="left">{row.lat}</TableCell>
                         <TableCell align="left">{row.lon}</TableCell>
+                        <TableCell><Switch  onChange={(e)=>blockUser(e.target.checked,row._id)} inputProps={{ 'aria-label': 'Switch A' }} checked /></TableCell>
 
                         <TableCell align="right">
                         <UserMoreMenu setAlertMssg={setAlertMssg} reload={getUser} toggleDrawer={toggleDrawer} row={row}  path="http://www.koram.in:3000/api/v1/user/"  setRightDrawer={setRightDrawer} />
