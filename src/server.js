@@ -7,6 +7,9 @@ const passport = require("passport");
 const bcrypt = require('bcrypt');
 const cookieParser = require("cookie-parser");
 var cors = require('cors')
+const multer = require('multer')
+const fs = require('fs')
+const ChatRoomModel = require("./newmodel/chatroom.model");
 
 require("dotenv").config();
 //#endregion
@@ -24,9 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'build')));
-
-
-
+app.use("/upload",express.static("upload"))
 const dbConfig = require("./config/dbConfig");
 
 //#region CONNECTIVITY CHECK

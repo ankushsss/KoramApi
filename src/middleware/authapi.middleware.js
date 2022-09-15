@@ -120,9 +120,10 @@ module.exports.Authenticate = async (req, res, next) => {
     console.log(req.cookies)
   
     try {
-      token = req.cookies.ankush
+      token = req.cookies.koram
+    
       const compair = await jwt.verify(token, process.env.SECRETKEY);
-      console.log(compair)
+      console.log(compair,"hii")
       const email = compair.email
       User.findOne({
         email: req.body.email
@@ -138,3 +139,5 @@ module.exports.Authenticate = async (req, res, next) => {
       res.status(400).json('please lOGIN')
     }
   }
+
+  

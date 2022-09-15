@@ -352,7 +352,7 @@ module.exports.adminSignIn = async (req, res, next) => {
                 let isLogin = await bcrypt.compare(password, result.password)// for compair hash password
                 if (isLogin) {
                     token = await generateAuthToken(result)
-                    res.cookie('ankush', token);// set cookie where cookie name is ankush
+                    res.cookie('koram', token);// set cookie where cookie name is ankush
                     res.status(200).json({ "messege": "loginSuccess", "email": result.email });
                 }
                 else {
@@ -385,6 +385,12 @@ module.exports.subAdminSignup = async (req, res, next) => {
     else {
         res.status(400).json("Pleaswe Fill All the Fileds")
     }
+};
+
+module.exports.logout = async (req, res) => {
+    console.log("hii")
+    res.clearCookie('koram');//clear a cookie
+    res.status(200).json('logout success')
 };
 
 module.exports.addUser = async (req, res) => {
@@ -438,9 +444,21 @@ module.exports.editUser = async (req, res) => {
 
 }
 
+module.exports.imageUploadRoom = async (req, res) => {
+    console.log(req.file)
+    console.log(req.body)
+    ChatRoomModel.findOneAndUpdate({ _id: req.body.id }, {
+      "image": req.file.path,
+
+  }).then((data)=>{
+    res.status(200).json("success")
+  })
+
+}
+
 module.exports.blockUser = async (req, res) => {
     try {
-        console.log(req.body)
+      
         const users = await UserModel.findOneAndUpdate({ _id: req.body._id }, {
             "is_block": req.body.is_block
 
@@ -506,6 +524,7 @@ module.exports.addchatrooms = async (req, res) => {
 
 module.exports.isLogin = async (req, res) => {
     try {
+        console.log("hiii")
         res.status(200).json("success")
     }
     catch (err) {

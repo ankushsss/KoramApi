@@ -53,3 +53,4 @@ exports.getImg = (req, res) => {
     console.log(require('path').dirname(require.main.filename) + '/userimages/' + req.params.id)
     res.sendFile(require('path').dirname(require.main.filename) + '/userimages/' + req.params.id);
 }
+
